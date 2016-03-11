@@ -1,25 +1,9 @@
 package hashfun
 
 import (
+	"bytes"
 	"testing"
 )
-
-func isByteSliceEqual(lp, rp []byte) bool {
-	ll := len(lp)
-	lr := len(rp)
-
-	if ll != lr {
-		return false
-	}
-
-	for i := range lp {
-		if lp[i] != rp[i] {
-			return false
-		}
-	}
-
-	return true
-}
 
 func TestHash(t *testing.T) {
 	src := []byte("你好，世界")
@@ -38,7 +22,7 @@ func TestHash(t *testing.T) {
 
 	for _, test := range tests {
 		got := Hash(src, test.input)
-		if !isByteSliceEqual(got, test.want) {
+		if !bytes.Equal(got, test.want) {
 			t.Errorf("Hash(%q, %q) == %q, want %q", src, hashName[test.input], got, test.want)
 		} else {
 			t.Logf("Hash(%q, %q) passed", src, hashName[test.input])
@@ -130,7 +114,7 @@ func TestCRC32(t *testing.T) {
 
 	for _, test := range tests {
 		got := GetCRC32(test.input)
-		if !isByteSliceEqual(got, test.want) {
+		if !bytes.Equal(got, test.want) {
 			t.Errorf("GetCRC32(%q) == %q, want %q", test.input, got, test.want)
 		} else {
 			t.Logf("GetCRC32(%q) passed", test.input)

@@ -1,20 +1,9 @@
 package b64
 
-import "testing"
-
-func isByteSliceEqual(lp, rp []byte) bool {
-	if len(lp) != len(rp) {
-		return false
-	}
-
-	for i := range lp {
-		if lp[i] != rp[i] {
-			return false
-		}
-	}
-
-	return true
-}
+import (
+	"bytes"
+	"testing"
+)
 
 func TestEncode(t *testing.T) {
 	var tests = []struct {
@@ -27,7 +16,7 @@ func TestEncode(t *testing.T) {
 
 	for _, test := range tests {
 		got := Encode(test.input)
-		if !isByteSliceEqual(got, test.want) {
+		if !bytes.Equal(got, test.want) {
 			t.Errorf("Encode(%q) == %q, want %q", test.input, got, test.want)
 		}
 	}
@@ -44,7 +33,7 @@ func TestDecode(t *testing.T) {
 
 	for _, test := range tests {
 		got, err := Decode(test.input)
-		if err != nil || !isByteSliceEqual(got, test.want) {
+		if err != nil || !bytes.Equal(got, test.want) {
 			t.Errorf("Decode(%q) == %q, want %q", test.input, got, test.want)
 		}
 	}
