@@ -1,6 +1,7 @@
 package hashfun
 
 import (
+	"crypto/hmac"
 	"crypto/md5"
 	"crypto/sha1"
 	"crypto/sha256"
@@ -71,4 +72,13 @@ func GetCRC32(src []byte) []byte {
 
 	hex.Encode(signature, h.Sum(nil))
 	return signature
+}
+
+func HmacSha1(data, key string) string {
+	h := hxfun[SHA1]
+	hm := hmac.New(h, []byte(key))
+	signature := make([]byte, hm.Size()*2)
+	hm.Write([]byte(data))
+	hex.Encode(signature, hm.Sum(nil))
+	return string(signature)
 }
