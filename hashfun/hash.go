@@ -74,7 +74,14 @@ func GetCRC32(src []byte) []byte {
 	return signature
 }
 
-func HmacSha1(data, key string) string {
+func HmacSha1(data, key []byte) []byte {
+	h := hxfun[SHA1]
+	hm := hmac.New(h, key)
+	hm.Write(data)
+	return hm.Sum(nil)
+}
+
+func HmacSha1String(data, key string) string {
 	h := hxfun[SHA1]
 	hm := hmac.New(h, []byte(key))
 	signature := make([]byte, hm.Size()*2)
